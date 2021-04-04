@@ -14,16 +14,14 @@
 				</div>
 			</a-layout-header>
 		</a-layout>
-		<a-layout style="min-height: 100vh">
+		<a-layout style="height: calc(100vh - 48px)">
 			<a-layout-sider :width="collapsed?'60px':'208px'" v-model="collapsed" theme="light" :trigger="null" :style="{
 				background: '#F5F5F5',
 				width:collapsed?'60px':'208px',
 				minWidth:collapsed?'60px':'208px',
 				maxWidth:collapsed?'60px':'208px'
 			}">
-				<a-menu mode="inline"
-				 @click="menuClicked"
-				 :style="{
+				<a-menu mode="inline" @click="menuClicked" :style="{
 					width:collapsed?'60px':'208px'
 				}">
 					<template v-for="(menu,iindex) in menus">
@@ -33,13 +31,13 @@
 							</span>
 							<span v-if="!collapsed">{{menu.title}}</span>
 						</a-menu-item>
-						<a-sub-menu mode="inline" v-else>
+						<a-sub-menu v-else mode="inline">
 							<span slot="title">
 								<img class="nav-icon" :src="menu.icon" alt="" />
 								<span v-if="!collapsed">{{menu.title}}</span>
 							</span>
 							<a-menu-item v-for="(sub,ind) in menu.children" :key="sub.uri">{{sub.title}}</a-menu-item>
-						</a-sub-menu> 
+						</a-sub-menu>
 					</template>
 				</a-menu>
 				<span class="slide-btn" @click="triggerCollapsed">
@@ -47,20 +45,27 @@
 					<a-icon v-else type="left" />
 				</span>
 			</a-layout-sider>
-			<a-layout-content style="margin: 0 16px">
+			<a-layout-content style="padding: 6px 24px;background: #FFF;">
 				<a-breadcrumb>
-					<a-breadcrumb-item>User</a-breadcrumb-item>
-					<a-breadcrumb-item>Bill</a-breadcrumb-item>
+					<a-breadcrumb-item v-for="(crumb,index) in breadcrumb" :key="crumb.uri">
+						<template v-if="index == breadcrumb.length - 1 || !crumb.breadcrumb">
+							{{crumb.title}}
+						</template>
+						<template v-else>
+							<router-link :to="crumb.path">{{crumb.title}}</router-link>
+						</template>
+					</a-breadcrumb-item>
 				</a-breadcrumb>
-				<router-view />	
+				<router-view />
 			</a-layout-content>
 		</a-layout>
 	</div>
 </template>
 
 <script>
+	import store from '@/store'
 	export default {
-		name:"Home",
+		name: "Home",
 		data() {
 			return {
 				collapsed: false,
@@ -71,9 +76,8 @@
 						children: []
 					},
 					{
-						title: "首播课管理",
+						title: "直播课管理",
 						icon: require("../assets/navicons/live.png"),
-						// uri: "/live",
 						children: [{
 							title: "直播间管理",
 							uri: "/live/room",
@@ -85,13 +89,12 @@
 					{
 						title: "内容管理",
 						icon: require("../assets/navicons/content.png"),
-						// uri: "/content",
 						children: [{
 								title: "系统内容",
 								uri: "/content/system",
 							}, {
 								title: "评价标签",
-								uri: "/content/evaluate:Labels",
+								uri: "/content/evaluateLabels",
 							},
 							{
 								title: "留言板",
@@ -102,7 +105,6 @@
 					{
 						title: "信息库",
 						icon: require("../assets/navicons/info.png"),
-						// uri: "/info",
 						children: [{
 							title: "文章管理",
 							uri: "/info/article",
@@ -114,7 +116,6 @@
 					{
 						title: "审核管理",
 						icon: require("../assets/navicons/audit.png"),
-						// uri: "/audit",
 						children: [{
 								title: "直播",
 								uri: "/audit/live",
@@ -132,7 +133,6 @@
 								uri: "/audit/help",
 							},
 						]
-
 					},
 					{
 						title: "专家库管理",
@@ -143,7 +143,6 @@
 					{
 						title: "活动管理",
 						icon: require("../assets/navicons/activity.png"),
-						// uri: "/activity",
 						children: [{
 							title: "线下活动管理",
 							uri: "/activity/offline",
@@ -152,7 +151,6 @@
 					{
 						title: "分类管理",
 						icon: require("../assets/navicons/class.png"),
-						// uri: "/classify",
 						children: [{
 								title: "标签管理",
 								uri: "/classify/labels",
@@ -166,7 +164,7 @@
 					{
 						title: "敏感词管理",
 						icon: require("../assets/navicons/sensitive.png"),
-						// uri: "/sensitive/lib",
+						uri: "/sensitive/lib",
 						children: []
 					},
 					{
@@ -178,13 +176,34 @@
 				]
 			};
 		},
+		computed: {
+			breadcrumb: function() {
+				const matched = this.$route.matched
+				let crumbs = []
+				for (let i = 0; i < matched.length; i++) {
+					matched[i].meta.parent && crumbs.push({
+						path: matched[i].meta.parent,
+						title: matched[i].meta.parentTitle,
+						breadcrumb: true
+					})
+					crumbs.push({
+						path: matched[i].path,
+						title: matched[i].meta.title,
+						breadcrumb: matched[i].meta.breadcrumb
+					})
+				}
+				return crumbs
+			}
+		},
+
 		methods: {
 			triggerCollapsed: function() {
 				this.collapsed = !this.collapsed
 			},
-			menuClicked:function(data){
+			menuClicked: function(data) {
+				if (window.location.pathname == data.key) return
 				this.$router.push({
-					path:data.key
+					path: data.key
 				})
 			}
 		}

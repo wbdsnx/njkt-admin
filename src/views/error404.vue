@@ -7,22 +7,18 @@
       icon="vertical-right"
       size="large"
       @click="backHome"
-    >返回上一页</a-button>
+    >返回首页</a-button>
   </div>
 </template>
 <script>
 export default {
   data() {
-    return {
-      // promissonList: undefined
-    }
+    return {}
   },
-  mounted() {
-    // this.promissonList = this.$store.state.promissonList
-  },
+  mounted() {},
   methods: {
     backHome() {
-      this.$router.push('/')
+      this.$router.replace('/')
     }
   }
 }

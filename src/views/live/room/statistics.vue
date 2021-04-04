@@ -1,5 +1,5 @@
 <template>
-	<div>12312312321321</div>
+	<div>直播数据</div>
 </template>
 
 <script>

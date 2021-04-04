@@ -6,12 +6,15 @@ import store from './store'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.less';
 
+Vue.prototype.$store = store
+
+//全局样式
 import '@/assets/css/index.less'
+//全局组件
+import '@/components/global'
 
 Vue.config.productionTip = false;
 Vue.use(Antd)
-
-Vue.config.productionTip = false
 
 new Vue({
   router,

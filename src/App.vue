@@ -3,6 +3,7 @@
 		<a-config-provider :locale="locale">
 			<Home />
 		</a-config-provider>
+		
 	</div>
 </template>
 <script>

@@ -1,12 +1,28 @@
 * {
 	font-family: PingFangSC-Regular, PingFang SC;
+	font-size: 14px !important;
 }
 
-*::after{
-	border: none !important;
+.page-title{
+	margin: 16px 0;
+	font-size: 28px !important;
+	font-weight: 500;
+	color: #111111;
 }
 
+.content-box{
+	padding: 24px 24px 0 24px;
+	min-width: 1184px;	
+	box-shadow: 0 2px 5px 2px rgba(202,221,247,0.8);
+}
 
+.router-link-active:hover{
+	 color: #20BF8E !important;
+}
+
+.ant-menu-item::after{
+	display: none;
+}
 
 .ant-menu-item,
 .ant-menu-submenu > .ant-menu-submenu-title{
@@ -49,4 +65,15 @@
 	background: #DEDEDE !important;
 	color: #000;
 	font-weight: 500;
+}
+
+.btn-primary{
+	height: 40px !important;
+}
+.btn-icon{
+	margin-right: 3px;
+}
+
+/deep/.ant-modal-confirm-body > .anticon{
+	font-size: 24px;
 }
