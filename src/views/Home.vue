@@ -48,11 +48,11 @@
 			<a-layout-content style="padding: 6px 24px;background: #FFF;">
 				<a-breadcrumb>
 					<a-breadcrumb-item v-for="(crumb,index) in breadcrumb" :key="crumb.uri">
-						<template v-if="index == breadcrumb.length - 1 || !crumb.breadcrumb">
-							{{crumb.title}}
+						<template v-if="index == breadcrumb.length - 1 || !crumb.meta.breadcrumb">
+							{{crumb.meta.title}}
 						</template>
 						<template v-else>
-							<router-link :to="crumb.path">{{crumb.title}}</router-link>
+							<router-link :to="crumb.path">{{crumb.meta.title}}</router-link>
 						</template>
 					</a-breadcrumb-item>
 				</a-breadcrumb>
@@ -177,22 +177,8 @@
 			};
 		},
 		computed: {
-			breadcrumb: function() {
-				const matched = this.$route.matched
-				let crumbs = []
-				for (let i = 0; i < matched.length; i++) {
-					matched[i].meta.parent && crumbs.push({
-						path: matched[i].meta.parent,
-						title: matched[i].meta.parentTitle,
-						breadcrumb: true
-					})
-					crumbs.push({
-						path: matched[i].path,
-						title: matched[i].meta.title,
-						breadcrumb: matched[i].meta.breadcrumb
-					})
-				}
-				return crumbs
+			breadcrumb: function(){
+				return this.$route.matched
 			}
 		},
 

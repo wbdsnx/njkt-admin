@@ -1,27 +1,24 @@
 <template>
-	<div id = 'live-room'>
-			<div class="page-title">
-				直播间管理
-			</div>
-			<!-- 筛选框 -->
-			<div class="content-box content-filter">
-				<filter-form :form="filterForm" :tools="tools"></filter-form>
-			</div>
-			<!-- 表格 -->
-			<div class="content-box content-table">
-				<a-button type="primary" class="btn-primary add-btn" @click="addRoom()">
-					<img class="btn-icon" src="@/assets/icons/add.png" alt="" />
-					添加
-				</a-button>
-				<a-button class="btn-primary del-btn">
-					<img class="btn-icon" src="@/assets/icons/delete.png" alt="" />
-					删除
-				</a-button>
-				<cont-table class="cont-table" :total="total" :columns="columns" :dataSource="data"></cont-table>
-			</div>
-		
+	<div v-if="currentPage">
+		<page-header :go-back="false" />
+		<!-- 筛选框 -->
+		<div class="content-box content-filter">
+			<filter-form :form="filterForm" :tools="tools"></filter-form>
+		</div>
+		<!-- 表格 -->
+		<div class="content-box content-table">
+			<a-button type="primary" class="btn-primary add-btn" @click="addRoom()">
+				<img class="btn-icon" src="@/assets/icons/add.png" alt="" />
+				添加
+			</a-button>
+			<a-button class="btn-primary del-btn">
+				<img class="btn-icon" src="@/assets/icons/delete.png" alt="" />
+				删除
+			</a-button>
+			<cont-table class="cont-table" :total="total" :columns="columns" :dataSource="data"></cont-table>
+		</div>
 	</div>
-	
+	<router-view v-else />
 </template>
 <script>
 	import column from '@/common/column.js'
@@ -88,7 +85,7 @@
 			label: "直播分类",
 				value: "",
 				placeholder: "请选择直播分类",
-				type: "select",
+				type: "classify",
 		},
 		status: {
 			label: "直播状态",
@@ -127,9 +124,10 @@
 				tools,
 				columns,
 				data,
+				currentPage: undefined,
 			}
 		},
-		
+
 		mounted() {
 			offShelf.name = '直播'
 			remove.name = '直播'
@@ -137,23 +135,30 @@
 			detail.action = this.roomDetail
 			statistics.action = this.roomStatistics
 		},
-
+		watch: {
+			'$route': function(to) {
+				this.currentPage = to.path == '/live/room'
+			}
+		},
+		created() {
+			this.currentPage = this.$route.path == '/live/room'
+		},
 		methods: {
 			addRoom: function() {
 				this.$router.push({
-					path: '/live/add'
+					path: '/live/room/add'
 				})
 			},
 			editRoom: function(data) {
 				this.$router.push({
-					path: '/live/edit',
+					path: '/live/room/edit',
 					params: data
 				})
 			},
 			roomStatistics: function(data) {
 				console.log(data)
 				this.$router.push({
-					path: '/live/statistics',
+					path: '/live/room/statistics',
 					params: data
 				})
 			},
@@ -164,7 +169,6 @@
 					path: '/live/room/detail',
 					params: data
 				})
-				// this.$router.go(1)
 			}
 		}
 	}

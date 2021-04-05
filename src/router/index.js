@@ -49,7 +49,9 @@ console.log(LiveRoom)
 import store from '@/store'
 
 
-const templateX = {template:'<router-view />'}
+const templateX = {
+	template: '<router-view />'
+}
 const routes = [
 	//首页
 	{
@@ -74,10 +76,9 @@ const routes = [
 			title: "直播课管理",
 			breadcrumb: false
 		},
-		component:{
+		component: {
 			render: (e) => e("router-view")
 		},
-
 		children: [{
 				path: 'room',
 				component: LiveRoom,
@@ -85,6 +86,39 @@ const routes = [
 					title: '直播间管理',
 					breadcrumb: true
 				},
+				children: [{
+						path: 'detail',
+						component: LiveDetail,
+						meta: {
+							title: '查看',
+							breadcrumb: true
+						},
+					},
+					{
+						path: 'add',
+						component: addOrEditLive,
+						meta: {
+							title: '添加直播间',
+							breadcrumb: true
+						},
+					},
+					{
+						path: 'edit',
+						component: addOrEditLive,
+						meta: {
+							title: '编辑直播间',
+							breadcrumb: true
+						},
+					},
+					{
+						path: 'statistics',
+						component: LiveStatistics,
+						meta: {
+							title: '直播间数据',
+							breadcrumb: true
+						},
+					},
+				]
 			},
 			{
 				path: 'user',
@@ -94,40 +128,6 @@ const routes = [
 					breadcrumb: true
 				},
 			},
-			{
-				path: 'add',
-				component: addOrEditLive,
-				meta: {
-					title: '添加直播间',
-					breadcrumb: true
-				},
-			},
-			{
-				path: 'edit',
-				component: addOrEditLive,
-				meta: {
-					title: '编辑直播间',
-					breadcrumb: true
-				},
-			},
-			{
-				path: 'statistics',
-				component: LiveStatistics,
-				meta: {
-					title: '直播间数据',
-					breadcrumb: true
-				},
-			},
-			{
-				path: 'room/detail',
-				component: LiveDetail,
-				meta: {
-					parent:'/live/room',
-					parentTitle: '直播间管理',
-					title: '查看',
-					breadcrumb: true
-				},
-			}
 		]
 	},
 	//内容管理

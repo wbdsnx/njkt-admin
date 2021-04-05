@@ -11,6 +11,9 @@
 					</a-select-option>
 				</a-select>
 			</span>
+			<span v-else-if="item.type == 'classify'">
+				 <classify-select />
+			</span>
 		</span>
 		<span class="tools-btn">
 			<a-button  v-for = "(btn,index) in tools" :type="btn.type" :key = "index"
