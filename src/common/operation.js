@@ -17,8 +17,7 @@ const edit = {
 }
 //下架
 const offShelf = {
-	name: undefined,
-	confirm: true,
+	confirm: undefined,
 	type: 'danger',
 	title: "下架",
 	action: data => {
@@ -27,8 +26,7 @@ const offShelf = {
 }
 //删除
 const remove = {
-	name: undefined,
-	confirm: true,
+	confirm: undefined,
 	title: "删除",
 	type: 'danger',
 	action: index => {
@@ -36,10 +34,33 @@ const remove = {
 	}
 }
 
+//拉黑
+const block = {
+	confirm: undefined,
+	title: "拉黑",
+	type: 'danger',
+	action: index => {
+		console.log(index)
+	}
+}
+
+//踢出
+const kickOut = {
+	confirm: undefined,
+	title: "踢出",
+	type: 'danger',
+	action: index => {
+		console.log(index)
+	}
+}
+
+
 module.exports = {
 	detail,
 	statistics,
 	edit,
 	offShelf,
-	remove
+	remove,
+	block,
+	kickOut
 }

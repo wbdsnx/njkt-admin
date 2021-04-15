@@ -1,5 +1,5 @@
 <template>
-	<div v-if="currentPage">
+	<div v-if="$store.getters.isParentPage">
 		<page-header :go-back="false" />
 		<!-- 筛选框 -->
 		<div class="content-box content-filter">
@@ -31,12 +31,12 @@
 	} from '@/common/operation.js'
 	const columns = [
 		column("图片", 'img', 94),
-		column("直播名称", 'liveName', 280),
+		column("直播名称", 'liveName', 216, false,true),
 		column("教授名称", 'expertName', 94),
-		column("分类", 'classify', 180),
+		column("分类", 'classify', 158,undefined,true),
 		column("时间", 'time', 174),
 		column("状态", 'status', 94),
-		column("操作", 'operation', 200),
+		column("操作", 'operation', 242,'right'),
 	];
 	const data = [{
 			key: '1',
@@ -55,7 +55,7 @@
 		{
 			key: '2',
 			img: "https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3434365774,3342884301&fm=26&gp=0.jpg",
-			liveName: '土豆种植法及种植技法教学第四讲',
+			liveName: '土豆种植法及种植技法教学第四讲1111111111111111111111111111111111111111',
 			expertName: '张雄',
 			classify: ["湖羊", "繁殖期", "营养"],
 			status: {
@@ -124,24 +124,16 @@
 				tools,
 				columns,
 				data,
-				currentPage: undefined,
+				isParentPage: this.$store.isParentPage,
 			}
 		},
-
+		
 		mounted() {
-			offShelf.name = '直播'
-			remove.name = '直播'
+			offShelf.confirm = '确定要下架此直播间吗？'
+			remove.confirm = '确定要删除此直播间吗？'
 			edit.action = this.editRoom
-			detail.action = this.roomDetail
+			detail.action = this.roomDetail 
 			statistics.action = this.roomStatistics
-		},
-		watch: {
-			'$route': function(to) {
-				this.currentPage = to.path == '/live/room'
-			}
-		},
-		created() {
-			this.currentPage = this.$route.path == '/live/room'
 		},
 		methods: {
 			addRoom: function() {

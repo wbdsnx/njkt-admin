@@ -29,11 +29,7 @@
 	.ant-page-header {
 		padding: 16px 0;
 	}
-	 .anticon-arrow-left{
-		 // font-size: 2em !important;
-		 // width: 1em;
-		 // height: 10em;
-	 }
+	
 	.ant-page-header-heading-title {
 		font-size: 20px !important;
 	}

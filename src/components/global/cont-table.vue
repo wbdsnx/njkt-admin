@@ -1,8 +1,14 @@
 <template>
 	<div class="cont-table">
-		<a-table size="middle" :columns="columns" :data-source="dataSource"
+		<a-table size="middle" :columns="columns" 
+		:scroll = "{
+			x:'148px'
+		}"
+		:data-source="dataSource"
 			:pagination="showPagination?pagination:false" :row-selection="rowSelection">
-			<img slot="img" slot-scope="img" :src="img" width="42px" height="42px" />
+			 <viewer slot='img' slot-scope="img" :images="[img]">
+				 <img :src="img" width="42px" height="42px" />
+			 </viewer>
 			<span slot='classify' slot-scope="tags">
 				<a-tag v-for="tag in tags" :key="tag">{{tag}}</a-tag>
 			</span>
@@ -78,10 +84,11 @@
 		},
 		methods: {
 			confirm: function(opera, index) {
+				console.log(opera)
 				this.$confirm({
 					destroyOnClose: true,
 					centered: true,
-					title: `确定要${opera.title}此${opera.name}吗？`,
+					title: opera.confirm,
 					okText: '确认',
 					okType: opera.type,
 					cancelText: '取消',

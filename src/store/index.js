@@ -5,15 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
-		currentPath:'/'
+		isParentPage: false,
 	},
 	mutations: {
-		setCurrentPath(state,currentPath){
-			state.currentPath = currentPath
+		setIsParentPage(state, isParentPage) {
+			state.isParentPage = isParentPage
 		}
 	},
 	getters: {
-		currentPath:state => state.currentPath
+		isParentPage: state => state.isParentPage
 	},
 	actions: {},
 	modules: {}

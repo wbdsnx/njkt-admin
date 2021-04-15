@@ -14,18 +14,17 @@
 				</div>
 			</a-layout-header>
 		</a-layout>
-		<a-layout style="height: calc(100vh - 48px)">
+		<a-layout style="height: calc(100vh - 48px);">
 			<a-layout-sider :width="collapsed?'60px':'208px'" v-model="collapsed" theme="light" :trigger="null" :style="{
 				background: '#F5F5F5',
 				width:collapsed?'60px':'208px',
-				minWidth:collapsed?'60px':'208px',
-				maxWidth:collapsed?'60px':'208px'
+				
 			}">
 				<a-menu mode="inline" @click="menuClicked" :style="{
 					width:collapsed?'60px':'208px'
 				}">
 					<template v-for="(menu,iindex) in menus">
-						<a-menu-item v-if="menu.children.length == 0" title="" :key='menu.uri'>
+						<a-menu-item v-if="!menu.children" title="" :key='menu.uri'>
 							<span>
 								<img class="nav-icon" :src="menu.icon" alt="">
 							</span>
@@ -45,7 +44,7 @@
 					<a-icon v-else type="left" />
 				</span>
 			</a-layout-sider>
-			<a-layout-content style="padding: 6px 24px;background: #FFF;">
+			<a-layout-content style="padding: 6px 24px;background: #FFF;overflow: scroll;">
 				<a-breadcrumb>
 					<a-breadcrumb-item v-for="(crumb,index) in breadcrumb" :key="crumb.uri">
 						<template v-if="index == breadcrumb.length - 1 || !crumb.meta.breadcrumb">
@@ -56,7 +55,12 @@
 						</template>
 					</a-breadcrumb-item>
 				</a-breadcrumb>
-				<router-view />
+				<div style="display: flex; flex-direction: row;">
+					<router-view />
+					<div>
+						<a-divider style="width: 24px;background: transparent;" type='vertical'></a-divider>
+					</div>
+				</div>
 			</a-layout-content>
 		</a-layout>
 	</div>
@@ -73,7 +77,6 @@
 						title: "首页",
 						icon: require("../assets/navicons/index.png"),
 						uri: "/",
-						children: []
 					},
 					{
 						title: "直播课管理",
@@ -137,8 +140,7 @@
 					{
 						title: "专家库管理",
 						icon: require("../assets/navicons/expert.png"),
-						uri: "/expert/lib",
-						children: []
+						uri: "/expert/lib"
 					},
 					{
 						title: "活动管理",
@@ -165,19 +167,18 @@
 						title: "敏感词管理",
 						icon: require("../assets/navicons/sensitive.png"),
 						uri: "/sensitive/lib",
-						children: []
+
 					},
 					{
 						title: "数据管理",
 						icon: require("../assets/navicons/data.png"),
-						uri: "/data/lib",
-						children: []
+						uri: "/data",
 					},
 				]
 			};
 		},
 		computed: {
-			breadcrumb: function(){
+			breadcrumb: function() {
 				return this.$route.matched
 			}
 		},
@@ -198,6 +199,8 @@
 
 <style lang="less">
 	.home-view {
+		background: #FFF;
+
 		.toggle-btn {
 			width: 60px;
 			height: 48px;
